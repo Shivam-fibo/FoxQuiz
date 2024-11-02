@@ -1,4 +1,4 @@
-import { Quiz } from "../model/quiz.model";
+import { Quiz } from "../model/quiz.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -11,6 +11,14 @@ const newQuizController = asyncHandler(async (req, res) => {
   await newQuiz.save();
   res.status(200).json(new ApiResponse(200, newQuiz, "Quiz added successfully"));
 });
+
+
+// Fetch all quizzes
+const getAllQuizzes = asyncHandler(async (req, res) => {
+  const quizzes = await Quiz.find();
+  res.status(200).json(new ApiResponse(200, quizzes, "Quizzes fetched successfully"));
+});
+
 
 // Admin only: Update a quiz
 const updateQuizController = asyncHandler(async (req, res) => {

@@ -4,18 +4,21 @@ import {
   updateQuizController,
   deleteQuizController,
   submitQuiz,
-} from "../controllers/quizController";
-import { verifyToken } from "../middleware/auth";
-import { checkRole } from "../middleware/checkRole";
+} from "../controller/quiz.controller.js";
+
 
 const router = express.Router();
 
 // Admin routes
-router.post("/quiz", verifyToken,  newQuizController);
-router.put("/quiz/:id", verifyToken,  updateQuizController);
-router.delete("/quiz/:id", verifyToken,  deleteQuizController);
+router.post("/quiz",   newQuizController);
+router.put("/quiz/:id",  updateQuizController);
+router.delete("/quiz/:id",  deleteQuizController);
 
 // User route
-router.post("/quiz/:id/submit", verifyToken, checkRole("user"), submitQuiz);
+router.post("/quiz/:id/submit", submitQuiz);
 
 export default router;
+
+
+// http://localhost:3000/quiz/quiz
+// http://localhost:3000/quiz/quiz/:id
