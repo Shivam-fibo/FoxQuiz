@@ -80,4 +80,5 @@ export {
   updateQuizController,
   deleteQuizController,
   submitQuiz,
+  getAllQuizzes
 };
