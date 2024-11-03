@@ -5,6 +5,7 @@ import {
   deleteQuizController,
   submitQuiz,
   getAllQuizzes,
+  getQuizResults,
 } from "../controller/quiz.controller.js";
 
 
@@ -14,7 +15,8 @@ const router = express.Router();
 router.post("/quiz",   newQuizController);
 router.put("/quiz/:id",  updateQuizController);
 router.delete("/quiz/:id",  deleteQuizController);
-router.get('/allQuiz', getAllQuizzes)
+router.get('/allQuiz', getAllQuizzes);
+router.get('/result', getQuizResults)
 
 // User route
 router.post("/quiz/:id/submit", submitQuiz);

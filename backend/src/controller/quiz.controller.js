@@ -2,7 +2,7 @@ import { Quiz } from "../model/quiz.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
-
+import { QuizResult } from "../model/quizResult.model.js";
 // Admin only: Create a new quiz
 const newQuizController = asyncHandler(async (req, res) => {
   const { title, questions } = req.body;
@@ -43,47 +43,42 @@ const deleteQuizController = asyncHandler(async (req, res) => {
   }
   res.status(200).json(new ApiResponse(200, quiz, "Quiz deleted successfully"));
 });
+
+
 const submitQuiz = asyncHandler(async (req, res) => {
   const { answers } = req.body;
-  console.log("Received answers:", answers); // Debug log for answers
   const quiz = await Quiz.findById(req.params.id);
-  
   if (!quiz) {
     throw new ApiError(404, "Quiz not found");
   }
 
   let score = 0;
-  
-
   quiz.questions.forEach((question, index) => {
-    const correctOption = question.options.find(option => option.isCorrect);
-    if (answers[index] === correctOption?.text) {
+    const correctAnswer = question.correctAnswer;
+    if (answers[index] === correctAnswer) {
       score += 1;
     }
   });
 
-  // Optional: Create a result object to save or log
-  const result = {
-    // userId: req.user._id, // Uncomment if you have user authentication
+  const result = await QuizResult.create({
+    userId: req.user?._id, // Ensure user ID is available here
     quizId: req.params.id,
     score,
     answers,
-    submittedAt: new Date(),
-  };
-
-  console.log("Calculated result:", result); // Debug log for result
-
-  // Save the result in the database if you have a QuizResult model
-  // Uncomment and define `QuizResult` if you want to save submissions
-  // await QuizResult.create(result);
+  });
 
   res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
 });
 
+const getQuizResults = asyncHandler(async (req, res) => {
+  const results = await QuizResult.find().populate("quizId").populate("userId");
+  res.status(200).json(new ApiResponse(200, results, "Quiz results fetched successfully"));
+});
 export {
   newQuizController,
   updateQuizController,
   deleteQuizController,
   submitQuiz,
-  getAllQuizzes
+  getAllQuizzes,
+  getQuizResults
 };
