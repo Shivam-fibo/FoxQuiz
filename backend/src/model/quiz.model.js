@@ -1,27 +1,18 @@
-import mongoose, {Schema} from 'mongoose'
-
-
-
+// quiz.model.js
+import mongoose from "mongoose";
 const optionSchema = new mongoose.Schema({
-    text: String,
-    isCorrect: Boolean,  
-  });
-  
-  const questionSchema = new mongoose.Schema({
-    questionText: {
-      type: String,
-      required: true,
-    },
-    options: [optionSchema],
-  });
-  
-  const quizSchema = new mongoose.Schema({
-    title: {
-      type: String,
-      required: true,
-    },
-    questions: [questionSchema],
-  });
+  text: { type: String, required: true },
+});
 
+const questionSchema = new mongoose.Schema({
+  questionText: { type: String, required: true },
+  options: { type: [optionSchema], required: true }, // Use an array of optionSchema
+  correctAnswer: { type: String, required: true }, // Ensure this is included
+});
 
-  export const Quiz = mongoose.model("Quiz", quizSchema)
+const quizSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  questions: { type: [questionSchema], required: true }, // Use an array of questionSchema
+});
+
+export const Quiz = mongoose.model('Quiz', quizSchema)
