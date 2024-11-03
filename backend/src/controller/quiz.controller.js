@@ -43,16 +43,18 @@ const deleteQuizController = asyncHandler(async (req, res) => {
   }
   res.status(200).json(new ApiResponse(200, quiz, "Quiz deleted successfully"));
 });
-
-// User only: Take and submit the quiz
 const submitQuiz = asyncHandler(async (req, res) => {
   const { answers } = req.body;
+  console.log("Received answers:", answers); // Debug log for answers
   const quiz = await Quiz.findById(req.params.id);
+  
   if (!quiz) {
     throw new ApiError(404, "Quiz not found");
   }
 
   let score = 0;
+  
+
   quiz.questions.forEach((question, index) => {
     const correctOption = question.options.find(option => option.isCorrect);
     if (answers[index] === correctOption?.text) {
@@ -60,17 +62,20 @@ const submitQuiz = asyncHandler(async (req, res) => {
     }
   });
 
-  // Optionally, save user result and info for admin review
+  // Optional: Create a result object to save or log
   const result = {
-    userId: req.user._id,
+    // userId: req.user._id, // Uncomment if you have user authentication
     quizId: req.params.id,
     score,
     answers,
     submittedAt: new Date(),
   };
 
-  // Save or send result to admin (e.g., via email or DB)
-  await QuizResult.create(result); // Example of saving to a database
+  console.log("Calculated result:", result); // Debug log for result
+
+  // Save the result in the database if you have a QuizResult model
+  // Uncomment and define `QuizResult` if you want to save submissions
+  // await QuizResult.create(result);
 
   res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
 });
