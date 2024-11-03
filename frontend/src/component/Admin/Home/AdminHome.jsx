@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from 'react-hot-toast'
 import { Navigate } from "react-router-dom";
 import { Context } from "../../../main";
+import AdminQuizSubmissions from "./AdminQuizSubmissions";
 const AdminQuizManager = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [title, setTitle] = useState("");
@@ -171,6 +172,8 @@ const AdminQuizManager = () => {
       </li>
     )) : <p>No quiz added</p>}
   </ul>
+
+  <AdminQuizSubmissions/>
 </div>
 
   );

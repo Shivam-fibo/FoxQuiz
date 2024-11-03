@@ -7,6 +7,7 @@ import Home from './component/Home/Home';
 import Register from './component/Auth/Register';
 import AdminLogin from './component/Admin/Auth/AdminLogin';
 import AdminHome from './component/Admin/Home/AdminHome';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
@@ -38,6 +39,7 @@ function App() {
         <Route path='/admin' element= {<AdminLogin/>} />
         <Route path='/admin/Home' element= {<AdminHome/>}/>
       </Routes>
+      <Toaster/>
     </BrowserRouter>
   );
 }

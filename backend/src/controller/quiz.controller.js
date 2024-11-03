@@ -61,7 +61,7 @@ const submitQuiz = asyncHandler(async (req, res) => {
   });
 
   const result = await QuizResult.create({
-    userId: req.user?._id, // Ensure user ID is available here
+    userId: req.user?._id, 
     quizId: req.params.id,
     score,
     answers,
@@ -70,10 +70,18 @@ const submitQuiz = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
 });
 
+
 const getQuizResults = asyncHandler(async (req, res) => {
-  const results = await QuizResult.find().populate("quizId").populate("userId");
+  const results = await QuizResult.find()
+    .populate("quizId") 
+    .populate({
+      path: "userId",
+      select: "fullName" 
+    });
+
   res.status(200).json(new ApiResponse(200, results, "Quiz results fetched successfully"));
 });
+
 export {
   newQuizController,
   updateQuizController,

@@ -38,6 +38,7 @@ const UserQuizViewer = () => {
       const response = await axios.post(`http://localhost:3000/quiz/quiz/${quizId}/submit`, {
         answers,
       });
+      console.log(response)
       toast.success(`Quiz submitted! Your score: ${response.data.data}`);
     } catch (error) {
       console.error("Error submitting quiz:", error);
