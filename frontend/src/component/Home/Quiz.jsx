@@ -4,8 +4,8 @@ import toast from 'react-hot-toast';
 
 const UserQuizViewer = () => {
   const [quizzes, setQuizzes] = useState([]);
-  const [selectedAnswers, setSelectedAnswers] = useState({}); // Store user's answers
-  const [activeQuiz, setActiveQuiz] = useState(null); // Track the currently opened quiz
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [activeQuiz, setActiveQuiz] = useState(null); 
 
   useEffect(() => {
     fetchQuizzes();

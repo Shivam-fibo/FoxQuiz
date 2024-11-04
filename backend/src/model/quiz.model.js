@@ -6,13 +6,13 @@ const optionSchema = new mongoose.Schema({
 
 const questionSchema = new mongoose.Schema({
   questionText: { type: String, required: true },
-  options: { type: [optionSchema], required: true }, // Use an array of optionSchema
-  correctAnswer: { type: String, required: true }, // Ensure this is included
+  options: { type: [optionSchema], required: true },
+  correctAnswer: { type: String, required: true }, 
 });
 
 const quizSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  questions: { type: [questionSchema], required: true }, // Use an array of questionSchema
+  questions: { type: [questionSchema], required: true }, 
 });
 
 export const Quiz = mongoose.model('Quiz', quizSchema)

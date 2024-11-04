@@ -66,21 +66,19 @@ const submitQuiz = asyncHandler(async (req, res) => {
     score,
     answers,
   });
-
+console.log(result)
   res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
 });
 
 
 const getQuizResults = asyncHandler(async (req, res) => {
   const results = await QuizResult.find()
-    .populate("quizId") 
-    .populate({
-      path: "userId",
-      select: "fullName" 
-    });
+  .populate('quizId', 'title')
+  .populate('userId', 'username email fullName');
 
   res.status(200).json(new ApiResponse(200, results, "Quiz results fetched successfully"));
 });
+
 
 export {
   newQuizController,
