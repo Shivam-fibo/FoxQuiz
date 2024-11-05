@@ -11,7 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const { isAuthorized, setIsAuthorized, setUser, setUserToken } = useContext(Context);
+  const {  setIsAuthorized, setUser, setUserToken } = useContext(Context);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -40,44 +40,36 @@ const Register = () => {
           withCredentials: true,
         }
       );
+      console.log(data)
       toast.success(data.message);
-      // Store data in localStorage
+  
+      // Store the access token and user data in localStorage
       localStorage.setItem("accessToken", data.data.accessToken);
       localStorage.setItem("user", JSON.stringify(data.data.user));
-
-
-      setUser(data.user);
+  
+      // Set context state
+      setUser(data.data.user);
+      setUserToken(data.data.accessToken);
       setIsAuthorized(true);
-      setUserToken(data.data.accessToken)
-
-
+  
+      
       setFullName("");
       setEmail("");
       setUserName("");
       setPassword("");
-      setRedirect(true)
+
+
+      setRedirect(true);
     } catch (error) {
-      if (error.response) {
-        const status = error.response.status;
-        
-        // Customize error messages based on status code
-        if (status === 409) {
-          toast.error("User already exists. Please try a different email or username.");
-        } else if (status === 400) {
-          toast.error("Bad request. Please check your input fields.");
-        } else {
-          toast.error(error.message || "An error occurred. Please try again.");
-        }
-      } else {
-        // Handle other errors (like network errors)
+      
         console.log("Login error:", error);
         toast.error(error.response?.data?.message || "Network error");
-      }
+      
     }
   };
 
   if (redirect) {
-    return <Navigate to="/" />;
+    return <Navigate to="/login" />;
   }
 
   return (

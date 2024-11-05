@@ -31,46 +31,48 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 
 // Function to register a new user
-
 const registerUser = asyncHandler(async (req, res) => {
-    const { fullName, email, username, password } = req.body
+    const { fullName, email, username, password } = req.body;
 
     // Validate that all required fields are present
     if (!fullName || !email || !username || !password) {
-        throw new ApiError(400, "All fields are required")
+        throw new ApiError(400, "All fields are required");
     }
 
-    // Check if the email is already in use
-    const existedEmail = await User.findOne({ email })
+  
+    const existedEmail = await User.findOne({ email });
     if (existedEmail) {
-        throw new ApiError(409, "Email already exists")
+        throw new ApiError(409, "Email already exists");
     }
 
-    // Check if the username is already in use
-    const existedUsername = await User.findOne({ username })
+   
+    const existedUsername = await User.findOne({ username });
     if (existedUsername) {
-        throw new ApiError(409, "Username already exists")
+        throw new ApiError(409, "Username already exists");
     }
 
    
-   
-
-    // Create a new user with the provided details
     const user = await User.create({
         fullName,
         email,
         password,
         username: username.toLowerCase(),
-    })
-
-    // Fetch the newly created user, excluding the password and refresh token
-    const createdUser = await User.findById(user._id).select("-password -refreshToken")
+    });
 
    
+    const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id);
 
-    // Respond with the created user details and a success message
-    return res.status(201).json(new ApiResponse(200, createdUser, "User registered successfully"))
-})
+    
+    const createdUser = await User.findById(user._id).select("-password -refreshToken");
+
+    
+    return res.status(201).json(new ApiResponse(200, {
+        user: createdUser,
+        accessToken,
+        refreshToken
+    }, "User registered successfully"));
+});
+
 const loginUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
 

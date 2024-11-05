@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  const { isAuthorized, setIsAuthorized, setUser, setUserToken } = useContext(Context);
+  const {  setIsAuthorized, setUser, setUserToken } = useContext(Context);
 
   const [redirect, setRedirect] = useState(false);
 
@@ -54,6 +54,7 @@ const Login = () => {
       setPassword("");
 
       setRedirect(true); 
+      console.log(data)
     } catch (error) {
       console.log("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed");
