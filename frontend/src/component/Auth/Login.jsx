@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 import { Link, Navigate } from "react-router-dom";
@@ -11,6 +11,22 @@ const Login = () => {
   const [password, setPassword] = useState("");
   
   const { isAuthorized, setIsAuthorized, setUser, setUserToken } = useContext(Context);
+
+  const [redirect, setRedirect] = useState(false);
+
+  
+  useEffect(() => {
+    const storedToken = localStorage.getItem("accessToken");
+    if (storedToken) {
+      setIsAuthorized(true);
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+      setUserToken(storedToken);
+      setRedirect(true); 
+    }
+  }, [setIsAuthorized, setUser, setUserToken]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,21 +41,27 @@ const Login = () => {
       );
       toast.success(data.message);
 
-     
-      setUser(data.user);
-      setUserToken(data.token); 
+      // Store data in localStorage
+      localStorage.setItem("accessToken", data.data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+      // Set context state
+      setUser(data.data.user);
+      setUserToken(data.data.accessToken);
       setIsAuthorized(true);
 
-    
       setEmail("");
       setPassword("");
+
+      setRedirect(true); // Set redirect to true after successful login
     } catch (error) {
       console.log("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
-  if (isAuthorized) {
+  // Check if user is authorized or has an access token in localStorage
+  if (redirect) {
     return <Navigate to="/" />;
   }
 
