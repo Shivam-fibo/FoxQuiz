@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { Context } from "../../main";
+import { Navigate } from "react-router-dom";
 
 const UserQuizViewer = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [activeQuiz, setActiveQuiz] = useState(null); 
+  const [activeQuiz, setActiveQuiz] = useState(null);
+
+  const { isAuthorized, userToken } = useContext(Context); 
 
   useEffect(() => {
     fetchQuizzes();
@@ -14,7 +18,8 @@ const UserQuizViewer = () => {
   const fetchQuizzes = async () => {
     try {
       const response = await axios.get("http://localhost:3000/quiz/allQuiz");
-      setQuizzes(response.data.data); // Adjust as per response structure
+      setQuizzes(response.data.data); 
+      console.log(response)
     } catch (error) {
       console.error("Error fetching quizzes:", error);
       toast.error("Failed to load quizzes");
@@ -35,10 +40,15 @@ const UserQuizViewer = () => {
     const answers = selectedAnswers[quizId];
 
     try {
-      const response = await axios.post(`http://localhost:3000/quiz/quiz/${quizId}/submit`, {
-        answers,
-      });
-      console.log(response)
+      const response = await axios.post(
+        `http://localhost:3000/quiz/quiz/${quizId}/submit`,
+        { answers },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
+      );
       toast.success(`Quiz submitted! Your score: ${response.data.data}`);
     } catch (error) {
       console.error("Error submitting quiz:", error);
@@ -47,9 +57,12 @@ const UserQuizViewer = () => {
   };
 
   const startQuiz = (quizId) => {
-    setActiveQuiz(quizId); // Set the active quiz to show questions and options
+    setActiveQuiz(quizId); 
   };
 
+  if (!isAuthorized) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div className="p-6 bg-gray-50 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>

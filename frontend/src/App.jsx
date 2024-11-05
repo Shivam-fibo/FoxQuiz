@@ -10,26 +10,9 @@ import AdminHome from './component/Admin/Home/AdminHome';
 import { Toaster } from 'react-hot-toast';
 
 function App() {
-  const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/user/getUser",
-          {
-            withCredentials: true,
-          }
-        );
-        setUser(response.data.user);
-        setIsAuthorized(true);
-      } catch (error) {
-        setIsAuthorized(false);
-      }
-    };
-    fetchUser();
-  }, [setIsAuthorized, setUser]);
 
+ 
   return (
     <BrowserRouter>
       <Routes>

@@ -47,6 +47,8 @@ const deleteQuizController = asyncHandler(async (req, res) => {
 
 const submitQuiz = asyncHandler(async (req, res) => {
   const { answers } = req.body;
+
+
   const quiz = await Quiz.findById(req.params.id);
   if (!quiz) {
     throw new ApiError(404, "Quiz not found");
@@ -61,7 +63,7 @@ const submitQuiz = asyncHandler(async (req, res) => {
   });
 
   const result = await QuizResult.create({
-    userId: req.user?._id, 
+    userId: req.user._id, 
     quizId: req.params.id,
     score,
     answers,

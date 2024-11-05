@@ -7,7 +7,7 @@ import {
   getAllQuizzes,
   getQuizResults,
 } from "../controller/quiz.controller.js";
-
+// import {verifyToken} from '../'
 
 const router = express.Router();
 
