@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { Navigate, Link } from "react-router-dom";
@@ -11,7 +11,23 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const { isAuthorized, setIsAuthorized, setUser } = useContext(Context);
+  const { isAuthorized, setIsAuthorized, setUser, setUserToken } = useContext(Context);
+
+  const [redirect, setRedirect] = useState(false);
+
+  useEffect(() =>{
+    const storedToken = localStorage.getItem("accessToken")
+      if(storedToken){
+        setIsAuthorized(true)
+        const storedUser = localStorage.getItem("user");
+        if(storedUser){
+          setUser(JSON.parse(storedUser))
+        }
+        setUserToken(storedToken);
+        setRedirect(true);
+      }
+    
+  }, [setIsAuthorized, setUser, setUserToken])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,13 +40,22 @@ const Register = () => {
           withCredentials: true,
         }
       );
-      toast.success("Registration Successful!");
+      toast.success(data.message);
+      // Store data in localStorage
+      localStorage.setItem("accessToken", data.data.accessToken);
+      localStorage.setItem("user", JSON.stringify(data.data.user));
+
+
       setUser(data.user);
       setIsAuthorized(true);
+      setUserToken(data.data.accessToken)
+
+
       setFullName("");
       setEmail("");
       setUserName("");
       setPassword("");
+      setRedirect(true)
     } catch (error) {
       if (error.response) {
         const status = error.response.status;
@@ -45,12 +70,13 @@ const Register = () => {
         }
       } else {
         // Handle other errors (like network errors)
-        toast.error("Network error. Please check your connection.");
+        console.log("Login error:", error);
+        toast.error(error.response?.data?.message || "Network error");
       }
     }
   };
 
-  if (isAuthorized) {
+  if (redirect) {
     return <Navigate to="/" />;
   }
 

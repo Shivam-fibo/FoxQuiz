@@ -63,7 +63,7 @@ const submitQuiz = asyncHandler(async (req, res) => {
   });
 
   const result = await QuizResult.create({
-    userId: req.user._id, 
+    // userId: req.user._id, 
     quizId: req.params.id,
     score,
     answers,

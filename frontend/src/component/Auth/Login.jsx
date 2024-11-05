@@ -53,14 +53,14 @@ const Login = () => {
       setEmail("");
       setPassword("");
 
-      setRedirect(true); // Set redirect to true after successful login
+      setRedirect(true); 
     } catch (error) {
       console.log("Login error:", error);
       toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
-  // Check if user is authorized or has an access token in localStorage
+
   if (redirect) {
     return <Navigate to="/" />;
   }
