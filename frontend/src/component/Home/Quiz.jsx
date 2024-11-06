@@ -69,7 +69,12 @@ const UserQuizViewer = () => {
       console.log("Full Response:", response); 
       console.log("User Info from Response:", response.data.data); 
       toast.success(`Quiz submitted! Your score: ${response.data.data.score}`);
-      navigate("/")
+
+     setTimeout(() => {
+
+       navigate("/")
+       
+     }, 3000);
       
     } catch (error) {
       console.error("Error submitting quiz:", error);
@@ -84,7 +89,10 @@ const UserQuizViewer = () => {
   const handleTabSwitch = (event) => {
     if (activeQuiz) {
       event.preventDefault();
-      navigate("/"); 
+      setTimeout(() => {
+        navigate("/"); 
+      }, 3000);
+      
       setActiveQuiz(null); 
     }
   };

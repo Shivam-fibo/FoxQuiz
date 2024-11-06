@@ -1,0 +1,22 @@
+@keyframes borderAnimation {
+    0% {
+      border-color: blue;
+    }
+    30% {
+      border-color: red;
+    }
+    60%{
+        border-color: aquamarine;
+    }
+    80%{
+        border-color:darkred;
+    }
+    100% {
+      border-color: blue;
+    }
+  }
+  
+  .animate-border {
+    animation: borderAnimation 2s infinite;
+  }
+  

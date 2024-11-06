@@ -1,5 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Typewriter } from 'react-simple-typewriter'
+import FeaturesSection from './FeaturesSection';
+import { rubberBand } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -8,31 +12,52 @@ const Home = () => {
     e.preventDefault();
     navigate('/quiz');
   }
+
+ const slideInDownAnimation = keyframes`${rubberBand}`;
+const AnimatedButton = styled.button`
+
+  animation: 1s ${slideInDownAnimation};
+  }
+`;
+
   
 
   return (
-    <section className="relative h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-center">
-        {/* Section header */}
-        <h1 className="text-4xl font-bold mb-6 text-gray-800">
-          Welcome to the Quiz Application
-        </h1>
-        <p className="mb-8 text-lg text-gray-600">
-          Test your knowledge with our engaging quizzes. Click the button below to get started!
-        </p>
-        <div className="flex justify-center space-x-4">
-          <button
-            onClick={hanlickClick}
-            className="btn bg-gradient-to-t from-blue-600 to-blue-500 text-white px-6 py-3 rounded-md shadow-lg hover:bg-blue-400 transition"
-          >
-            Start Quiz
-          </button>
-          <button className="btn bg-white text-gray-800 border border-gray-300 px-6 py-3 rounded-md shadow hover:bg-gray-100 transition">
-            Learn More
-          </button>
-        </div>
-      </div>
-    </section>
+
+     <div className="flex flex-col items-center justify-center min-h-screen mt-48 bg-white p-8 text-center">
+      {/* Heading */}
+      <h1 className="text-4xl font-bold text-gray-900 mb-4">
+      Welcome to QuizMaster!<span className="text-pink-500"> challenge yourself </span><span className="text-blue-500">compete with friends</span> 
+        <span role="img" aria-label="eyes"> 👀</span>
+      </h1>
+   
+
+      {/* Subtitle */}
+      <p className="text-lg text-gray-700 mb-6">
+    
+      <Typewriter
+            words={['    Ready to test  your knowledge? Start your quiz journey now!']}
+            loop={1}
+          
+            typeSpeed={70}  
+            
+      
+            delaySpeed={1000}
+         
+          />
+
+      </p>
+
+      {/* Button */}
+      <AnimatedButton onClick={hanlickClick} className="bg-red-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-red-600 focus:outline-none">
+      Start Quiz 🚀
+      </AnimatedButton>
+
+      {/* Small note */}
+      <p className="text-sm text-gray-500 mt-4">No CC Required!</p>
+      <FeaturesSection/>
+    </div>
+
   );
 }
 
