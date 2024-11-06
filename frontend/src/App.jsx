@@ -9,6 +9,7 @@ import AdminLogin from './component/Admin/Auth/AdminLogin';
 import AdminHome from './component/Admin/Home/AdminHome';
 import Quiz from './component/Home/Quiz'
 import { Toaster } from 'react-hot-toast';
+import Feedback from './component/Home/Feedback';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route path='/admin' element= {<AdminLogin/>} />
         <Route path='/admin/Home' element= {<AdminHome/>}/>
         <Route path = '/quiz' element = {<Quiz/>} />
+        <Route path='/feedback' element = {<Feedback/>} />
       </Routes>
       <Toaster/>
     </BrowserRouter>

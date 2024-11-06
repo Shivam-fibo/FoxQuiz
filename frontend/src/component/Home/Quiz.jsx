@@ -68,13 +68,14 @@ const UserQuizViewer = () => {
       
       console.log("Full Response:", response); 
       console.log("User Info from Response:", response.data.data); 
-      toast.success(`Quiz submitted! Your score: ${response.data.data.score}`);
-
+      toast.success(`Quiz submitted!`);
+      
+      const score = response.data.data.score;
      setTimeout(() => {
 
-       navigate("/")
-       
-     }, 3000);
+       navigate("/feedback", {state: {score}})
+
+     }, 1000);
       
     } catch (error) {
       console.error("Error submitting quiz:", error);

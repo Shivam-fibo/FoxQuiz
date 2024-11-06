@@ -5,6 +5,9 @@ import FeaturesSection from './FeaturesSection';
 import { rubberBand } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 
+const slideInDownAnimation = keyframes`${rubberBand}`;
+const AnimatedButton = styled.button`animation: 1s ${slideInDownAnimation};}`;
+
 const Home = () => {
   const navigate = useNavigate();
 
@@ -13,12 +16,6 @@ const Home = () => {
     navigate('/quiz');
   }
 
- const slideInDownAnimation = keyframes`${rubberBand}`;
-const AnimatedButton = styled.button`
-
-  animation: 1s ${slideInDownAnimation};
-  }
-`;
 
   
 
