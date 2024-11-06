@@ -69,7 +69,7 @@ const UserQuizViewer = () => {
       console.log("Full Response:", response); 
       console.log("User Info from Response:", response.data.data); 
       toast.success(`Quiz submitted!`);
-      
+
       const score = response.data.data.score;
      setTimeout(() => {
 
@@ -102,55 +102,58 @@ const UserQuizViewer = () => {
     return <Navigate to="/login" />;
   }
 
-  return (
-    <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
-      {quizzes.length > 0 ? quizzes.map((quiz) => (
-        <div key={quiz._id} className="mb-6 p-4 bg-white rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold">{quiz.title}</h3>
-          {activeQuiz !== quiz._id ? (
-            <button
-              onClick={() => startQuiz(quiz._id)}
-              className="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md"
-            >
-              Start Quiz
-            </button>
-          ) : (
-            <div>
-              {quiz.questions.map((question, questionIndex) => (
-                <div key={questionIndex} className="my-4">
-                  <span><b>Question</b></span>
-                  <p className="font-semibold">{question.questionText}</p>
-                  <div className="flex flex-col space-y-2">
-                    <p>options</p>
-                    {question.options.map((option, optionIndex) => (
-                      <label key={optionIndex} className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          name={`question-${questionIndex}`}
-                          value={option.text}
-                          checked={selectedAnswers[quiz._id]?.[questionIndex] === option.text}
-                          onChange={() => handleOptionSelect(quiz._id, questionIndex, option.text)}
-                          className="form-radio"
-                        />
-                        <span>{option.text}</span>
-                      </label>
-                    ))}
-                  </div>
+  return (<>
+  <div className="flex items-center justify-center min-h-screen p-6 bg-gray-50">
+  <div className="w-full max-w-3xl">
+    <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
+    {quizzes.length > 0 ? quizzes.map((quiz) => (
+      <div key={quiz._id} className="mb-6 p-4 bg-white max-w-sm mx-auto">
+        <h3 className="text-lg font-semibold">{quiz.title}</h3>
+        {activeQuiz !== quiz._id ? (
+          <button
+            onClick={() => startQuiz(quiz._id)}
+            className="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2"
+          >
+            Start Quiz
+          </button>
+        ) : (
+          <div>
+            {quiz.questions.map((question, questionIndex) => (
+              <div key={questionIndex} className="my-4">
+                <span><b>Question</b></span>
+                <p className="font-semibold">{question.questionText}</p>
+                <div className="flex flex-col space-y-2">
+                  <p>options</p>
+                  {question.options.map((option, optionIndex) => (
+                    <label key={optionIndex} className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name={`question-${questionIndex}`}
+                        value={option.text}
+                        checked={selectedAnswers[quiz._id]?.[questionIndex] === option.text}
+                        onChange={() => handleOptionSelect(quiz._id, questionIndex, option.text)}
+                        className="form-radio"
+                      />
+                      <span>{option.text}</span>
+                    </label>
+                  ))}
                 </div>
-              ))}
-              <button
-                onClick={() => submitQuiz(quiz._id)}
-                className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
-              >
-                Submit Quiz
-              </button>
-            </div>
-          )}
-        </div>
-      )) : <p>No quizzes available.</p>}
-    </div>
-  );
+              </div>
+            ))}
+            <button
+              onClick={() => submitQuiz(quiz._id)}
+              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2"
+            >
+              Submit Quiz
+            </button>
+          </div>
+        )}
+      </div>
+    )) : <p>No quizzes available.</p>}
+  </div>
+</div>
+
+  </>);
 };
 
 export default UserQuizViewer;
