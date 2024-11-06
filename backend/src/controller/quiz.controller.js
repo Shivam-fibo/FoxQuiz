@@ -45,8 +45,8 @@ const deleteQuizController = asyncHandler(async (req, res) => {
 });
 
 const submitQuiz = asyncHandler(async (req, res) => {
-  const { answers, fullname, username, email } = req.body;
-
+  const { answers, username, email } = req.body;
+console.log(req.body)
   // Find the quiz
   const quiz = await Quiz.findById(req.params.id);
   if (!quiz) {
@@ -66,8 +66,7 @@ const submitQuiz = asyncHandler(async (req, res) => {
   const result = await QuizResult.create({
     quizId: req.params.id,
     score,
-    answers,
-    fullname, // Save user details
+    answers, 
     username,
     email
   });
@@ -80,16 +79,13 @@ const submitQuiz = asyncHandler(async (req, res) => {
     message: "Quiz submitted successfully",
     data: {
       score,
-      fullname,
       username,
       email,
     },
   });
+})
 
 
-console.log("This is result", result)
-  res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
-});
 
 
 const getQuizResults = asyncHandler(async (req, res) => {

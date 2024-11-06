@@ -35,7 +35,7 @@ const QuizResults = () => {
         <p>No quiz results found.</p>
       ) : (
         <div>
-          {quizResults.map((result) => (
+    {[...quizResults].reverse().map((result) => (
             <div key={result._id} className="mb-4 p-4 bg-white rounded-lg shadow-md">
               <h3 className="text-lg font-semibold">{result.fullName}</h3>
               <p><strong>Username:</strong> {result.username}</p>

@@ -51,14 +51,14 @@ const UserQuizViewer = () => {
   };
   const submitQuiz = async (quizId) => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    const { fullname, username, email } = storedUser || {};
+    const {username, email } = storedUser || {};
   
     const answers = selectedAnswers[quizId];
   
     try {
       const response = await axios.post(
         `http://localhost:3000/quiz/quiz/${quizId}/submit`,
-        { answers, fullname, username, email },
+        { answers, username, email },
         {
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -69,6 +69,8 @@ const UserQuizViewer = () => {
       console.log("Full Response:", response); 
       console.log("User Info from Response:", response.data.data); 
       toast.success(`Quiz submitted! Your score: ${response.data.data.score}`);
+      navigate("/")
+      
     } catch (error) {
       console.error("Error submitting quiz:", error);
       toast.error("Failed to submit quiz");

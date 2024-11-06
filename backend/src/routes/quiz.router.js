@@ -21,6 +21,9 @@ router.get('/result', getQuizResults)
 // User route
 router.post("/quiz/:id/submit", submitQuiz);
 
+
+
+
 export default router;
 
 
