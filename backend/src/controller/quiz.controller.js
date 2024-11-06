@@ -44,16 +44,16 @@ const deleteQuizController = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, quiz, "Quiz deleted successfully"));
 });
 
-
 const submitQuiz = asyncHandler(async (req, res) => {
-  const { answers } = req.body;
+  const { answers, fullname, username, email } = req.body;
 
-
+  // Find the quiz
   const quiz = await Quiz.findById(req.params.id);
   if (!quiz) {
     throw new ApiError(404, "Quiz not found");
   }
 
+  // Calculate score
   let score = 0;
   quiz.questions.forEach((question, index) => {
     const correctAnswer = question.correctAnswer;
@@ -62,21 +62,41 @@ const submitQuiz = asyncHandler(async (req, res) => {
     }
   });
 
+  // Save the quiz result to the database
   const result = await QuizResult.create({
-    // userId: req.user._id, 
     quizId: req.params.id,
     score,
     answers,
+    fullname, // Save user details
+    username,
+    email
   });
-console.log(result)
+
+  console.log("This is result", result);
+
+  // Respond with user details along with the score
+  res.status(200).json({
+    success: true,
+    message: "Quiz submitted successfully",
+    data: {
+      score,
+      fullname,
+      username,
+      email,
+    },
+  });
+
+
+console.log("This is result", result)
   res.status(200).json(new ApiResponse(200, score, "Quiz submitted successfully"));
 });
 
 
 const getQuizResults = asyncHandler(async (req, res) => {
+  
   const results = await QuizResult.find()
-  .populate('quizId', 'title')
-  .populate('userId', 'username email fullName');
+    .populate('quizId', 'title') 
+    .select('score answers fullName username email quizId'); 
 
   res.status(200).json(new ApiResponse(200, results, "Quiz results fetched successfully"));
 });

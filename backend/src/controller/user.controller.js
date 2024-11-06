@@ -18,7 +18,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 
 
 
-        // Save the refresh token in the user object
+       
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
 
@@ -131,7 +131,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
     // Generate new access and refresh tokens
     const { accessToken, newRefreshToken } = await generateAccessAndRefreshToken(user?._id)
-    const options = { httpOnly: true, secure: true,  maxAge: 7 * 24 * 60 * 60 * 1000 }; 
+    const options = { httpOnly: true, secure: true,  maxAge: 7 }; 
 
     // Respond with the new tokens
     return res

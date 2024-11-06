@@ -5,6 +5,16 @@ import './index.css'
 
 export const Context = createContext({isAuthorized: false})
 
+
+window.addEventListener("blur", () => {
+  document.title = "Come Back 🤦‍♂️🤦‍♂️";
+});
+
+// when the user's focus is back to your tab (website) again
+window.addEventListener("focus", () => {
+  document.title = "Quiz 😊😊";
+});
+
 const AppWrapper = () =>{
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState(() => {
