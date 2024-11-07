@@ -12,8 +12,10 @@ const AdminQuizManager = () => {
 
 
   const {isAuthorized} = useContext(Context)
+
+
   if(!isAuthorized){
-    return <Navigate to = {"/admin"} />
+    return <Navigate to = {"/"} />
   }
 
 

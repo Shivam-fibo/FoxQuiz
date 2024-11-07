@@ -5,12 +5,13 @@ import AdminHome from './component/Admin/Home/AdminHome'
 
 import { Toaster } from 'react-hot-toast'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 function App() {
 
   return (
    <>
   <BrowserRouter>
-  
+
     <Routes>
     <Route path='/' element= {<AdminLogin/>} />
     <Route path='/admin' element= {<AdminHome/>}/>
