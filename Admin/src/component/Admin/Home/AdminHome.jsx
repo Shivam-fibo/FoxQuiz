@@ -79,15 +79,28 @@ const handleClickResult = () =>{
       navigate('/result')
 }
 
+const handleClickExistingQuiz = () =>{
+  navigate('existingquiz')
+}
+
 
   return (
 <div className="p-6 bg-gray-50 rounded-lg shadow-md">
   <div className="flex items-center justify-between mx-auto">
+    <div>
 
   <h2 className="text-2xl font-bold mb-6 ">Admin Quiz Manager</h2>
+    </div>
+
+    <div>
+
   
-  <button className="text-2xl font-bold mb-6" onClick={handleClickResult}>Quiz Result</button>
+  <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={handleClickResult}>Quiz Result</button>
+
+  <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={handleClickResult}>Quiz Result</button>
   </div>
+  
+    </div>
 
   <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
     <input
@@ -169,20 +182,6 @@ const handleClickResult = () =>{
     </button>
   </form>
 
-  <h3 className="text-lg font-semibold mt-8">Existing Quizzes</h3>
-  <ul>
-    {quizzes.length> 0 ? quizzes.map((quiz) => (
-      <li key={quiz._id} className="border border-gray-300 p-4 rounded-md my-2 flex justify-between items-center bg-white shadow-sm">
-        <span>{quiz.title}</span>
-        <button
-          onClick={() => deleteQuiz(quiz._id)}
-          className="text-red-500 hover:underline transition duration-200"
-        >
-          Delete
-        </button>
-      </li>
-    )) : <p>No quiz added</p>}
-  </ul>
 </div>
 
   );
