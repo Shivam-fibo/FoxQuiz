@@ -14,20 +14,6 @@ const UserQuizViewer = () => {
   useEffect(() => {
     fetchQuizzes();
 
-    const handleBeforeUnload = (event) => {
-      if (activeQuiz) {
-      
-        event.preventDefault();
-        event.returnValue = ''; 
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      // Cleanup the event listener on component unmount
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
   }, [activeQuiz]);
 
   const fetchQuizzes = async () => {
@@ -87,36 +73,34 @@ const UserQuizViewer = () => {
     setActiveQuiz(quizId);
   };
 
-  const handleTabSwitch = (event) => {
-    if (activeQuiz) {
-      event.preventDefault();
-      setTimeout(() => {
-        navigate("/"); 
-      }, 3000);
-      
-      setActiveQuiz(null); 
-    }
-  };
+
 
   if (!isAuthorized) {
     return <Navigate to="/login" />;
   }
 
   return (<>
-  <div className="flex items-center justify-center min-h-screen p-6 bg-gray-50">
-  <div className="w-full max-w-3xl">
+  <div className="flex items-center justify-between  p-6 bg-gray-50">
+  <div className="w-full ">
     <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
     {quizzes.length > 0 ? quizzes.map((quiz) => (
-      <div key={quiz._id} className="mb-6 p-4 bg-white max-w-sm mx-auto">
+      <div key={quiz._id} className="mb-6 p-4 bg-white  mx-auto">
+
         <h3 className="text-lg font-semibold">{quiz.title}</h3>
-        {activeQuiz !== quiz._id ? (
+        {/* <div className="flex items-center justify-between mb-6 p-4 bg-white mx-auto"> */}
+  
+       
+        {
+        activeQuiz !== quiz._id ? (
           <button
-            onClick={() => startQuiz(quiz._id)}
-            className="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2"
+          onClick={() => startQuiz(quiz._id)}
+          className="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2"
           >
             Start Quiz
           </button>
-        ) : (
+      )
+        
+        : (
           <div>
             {quiz.questions.map((question, questionIndex) => (
               <div key={questionIndex} className="my-4">
@@ -148,8 +132,11 @@ const UserQuizViewer = () => {
             </button>
           </div>
         )}
-      </div>
-    )) : <p>No quizzes available.</p>}
+              </div>
+
+    )) : <p>
+            Loading....
+      </p>}
   </div>
 </div>
 
