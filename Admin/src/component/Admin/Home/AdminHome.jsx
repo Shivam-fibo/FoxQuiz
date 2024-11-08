@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import toast from 'react-hot-toast'
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Context } from "../../../main";
 import AdminQuizSubmissions from "./AdminQuizSubmissions";
 const AdminQuizManager = () => {
@@ -9,7 +9,7 @@ const AdminQuizManager = () => {
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([{ questionText: "", options: [""], correctAnswer: "" }]);
 
-
+const navigate = useNavigate()
 
   const {isAuthorized} = useContext(Context)
 
@@ -75,10 +75,19 @@ const AdminQuizManager = () => {
     }
 };
 
+const handleClickResult = () =>{
+      navigate('/result')
+}
+
 
   return (
 <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-  <h2 className="text-2xl font-bold mb-6 text-center">Admin Quiz Manager</h2>
+  <div className="flex items-center justify-between mx-auto">
+
+  <h2 className="text-2xl font-bold mb-6 ">Admin Quiz Manager</h2>
+  
+  <button className="text-2xl font-bold mb-6" onClick={handleClickResult}>Quiz Result</button>
+  </div>
 
   <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
     <input
@@ -174,8 +183,6 @@ const AdminQuizManager = () => {
       </li>
     )) : <p>No quiz added</p>}
   </ul>
-
-  <AdminQuizSubmissions/>
 </div>
 
   );
