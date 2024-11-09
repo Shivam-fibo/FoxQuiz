@@ -10,15 +10,17 @@ const QuizResults = () => {
   const [totalResults, setTotalResults] = useState(0);
   const resultsPerPage = 10;
 
-  const fetchQuizResults = async (page = 1) => {
+  const fetchQuizResults = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/quiz/result?page=${page}&limit=${resultsPerPage}`);
-      setQuizResults(response.data.data); // Assuming the results are in response.data.data
-      setCurrentPage(response.data.meta.page); // Update current page
-      setTotalPages(response.data.meta.totalPages); // Update total pages
-      setTotalResults(response.data.meta.totalResults); // Update total results
+      const response = await axios.get(`http://localhost:3000/quiz/result?page=${1}&limit=${resultsPerPage}`);
+      console.log(response)
+      setQuizResults(response.data.data || []); 
+      setCurrentPage(response.data.page || 1); 
+      setTotalPages(response.data.totalPages || 1); 
+      setTotalResults(response.data.totalResults || 0);
       setLoading(false);
+
     } catch (error) {
       console.error('Error fetching quiz results:', error);
       toast.error('Failed to fetch quiz results');

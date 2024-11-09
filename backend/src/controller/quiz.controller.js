@@ -85,33 +85,32 @@ console.log(req.body)
   });
 })
 
-
 const getQuizResults = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
   const skip = (page - 1) * limit;
 
- 
   const results = await QuizResult.find()
-    // .skip(skip) 
-    // .limit(limit) 
+    .skip(skip)
+    .limit(limit)
     .populate('quizId', 'title')
     .select('score answers fullName username email quizId');
 
-  
   const totalResults = await QuizResult.countDocuments();
   const totalPages = Math.ceil(totalResults / limit);
-  console.log("result :", results)
-  console.log("totalResults :", totalResults)
-  console.log("totalPages :", totalPages)
- 
-  res.status(200).json(
-    new ApiResponse(200, results, "Quiz results fetched successfully", {
-      page,
-      totalPages,
-      totalResults,
-    })
-  );
+  console.log("result :", results);
+  console.log("totalResults :", totalResults);
+  console.log("totalPages :", totalPages);
+
+  res.status(200).json({
+    statusCode: 200,
+    data: results,
+    message: "Quiz results fetched successfully",
+    page: parseInt(page, 10),
+    totalPages,
+    totalResults
+  });
 });
+
 
 
 export {
