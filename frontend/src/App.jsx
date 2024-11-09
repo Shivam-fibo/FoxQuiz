@@ -8,12 +8,14 @@ import Register from './component/Auth/Register';
 import Quiz from './component/Home/Quiz'
 import { Toaster } from 'react-hot-toast';
 import Feedback from './component/Home/Feedback';
+import {Header} from './component/Layout/Header';
 
 function App() {
 
  
   return (
     <BrowserRouter>
+    <Header/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
