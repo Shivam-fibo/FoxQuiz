@@ -5,13 +5,19 @@ import toast from 'react-hot-toast';
 const QuizResults = () => {
   const [quizResults, setQuizResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(10);
+  const [totalResults, setTotalResults] = useState(0);
+  const resultsPerPage = 10;
 
-  // Function to fetch quiz results
-  const fetchQuizResults = async () => {
+  const fetchQuizResults = async (page = 1) => {
+    setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/quiz/result'); 
-      console.log(response);
+      const response = await axios.get(`http://localhost:3000/quiz/result?page=${page}&limit=${resultsPerPage}`);
       setQuizResults(response.data.data); // Assuming the results are in response.data.data
+      setCurrentPage(response.data.meta.page); // Update current page
+      setTotalPages(response.data.meta.totalPages); // Update total pages
+      setTotalResults(response.data.meta.totalResults); // Update total results
       setLoading(false);
     } catch (error) {
       console.error('Error fetching quiz results:', error);
@@ -20,9 +26,10 @@ const QuizResults = () => {
     }
   };
 
+  // Fetch quiz results on component mount and when currentPage changes
   useEffect(() => {
-    fetchQuizResults(); // Fetch quiz results on component mount
-  }, []);
+    fetchQuizResults(currentPage);
+  }, [currentPage]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -55,6 +62,27 @@ const QuizResults = () => {
           </table>
         </div>
       )}
+
+     
+      <div className="flex justify-between mt-4">
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <div>
+          Page {currentPage} of {totalPages}
+        </div>
+        <button
+          className="px-4 py-2 bg-blue-500 text-white rounded"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

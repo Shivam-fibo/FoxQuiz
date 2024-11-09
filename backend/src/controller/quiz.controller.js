@@ -86,15 +86,29 @@ console.log(req.body)
 })
 
 
-
-
 const getQuizResults = asyncHandler(async (req, res) => {
-  
-  const results = await QuizResult.find()
-    .populate('quizId', 'title') 
-    .select('score answers fullName username email quizId'); 
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
 
-  res.status(200).json(new ApiResponse(200, results, "Quiz results fetched successfully"));
+ 
+  const results = await QuizResult.find()
+    .skip(skip) 
+    .limit(limit) 
+    .populate('quizId', 'title')
+    .select('score answers fullName username email quizId');
+
+ 
+  const totalResults = await QuizResult.countDocuments();
+  const totalPages = Math.ceil(totalResults / limit);
+
+
+  res.status(200).json(
+    new ApiResponse(200, results, "Quiz results fetched successfully", {
+      page,
+      totalPages,
+      totalResults,
+    })
+  );
 });
 
 
