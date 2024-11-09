@@ -1,3 +1,6 @@
+body {
+  font-family: 'Lexend', sans-serif;
+}
 @keyframes borderAnimation {
     0% {
       border-color: blue;
@@ -19,4 +22,4 @@
   .animate-border {
     animation: borderAnimation 2s infinite;
   }
-  
+ 

@@ -14,6 +14,24 @@ const modelOutAnimation = keyframes`${slideOutUp}`;
 const ModelAnimationButtonIn = styled.div`animation: 0.9s ${modelInAnimation};`;
 const ModelAnimationButtonOut = styled.div`animation: 0.9s ${modelOutAnimation};`;
 
+
+
+const Card = ({ title, icon, background }) => {
+  return (
+    <div className={`flex  flex-col justify-between p-4 rounded-xl border border-black-200 shadow-sm ${background}`}>
+      <div className="flex items-center mx-auto mb-4">
+        <img src={icon} alt={`${title} icon`} className="w-12 h-12" />
+      </div>
+      <div className="text-lg font-semibold">{title}</div>
+      <div className="mt-2 text-purple-600 font-medium">
+      <span>Start Now →</span>
+      </div>
+    </div>
+  );
+};
+
+
+
 const Home = () => {
   const [showModel, setShowModel] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -37,8 +55,15 @@ const Home = () => {
     }, 900); 
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen mt-48 bg-white p-8 text-center">
+  return  (
+
+  <div>
+    
+    <div className="flex flex-col items-center justify-center  bg-orange-200 p-8 text-center">
+    <div className='mt-32'>
+
+    </div>
+      
       {/* Heading */}
       <h1 className="text-4xl font-bold text-gray-900 mb-4">
         Welcome to QuizFox!
@@ -48,7 +73,7 @@ const Home = () => {
       </h1>
 
      
-      <p className="text-lg text-gray-700 mb-6">
+      <p className="text-lg text-black mb-6 ">
         <Typewriter
           words={['    Ready to test your knowledge? Start your quiz journey now!']}
           loop={1}
@@ -63,6 +88,11 @@ const Home = () => {
       >
         Start Quiz 🚀
       </AnimatedButton>
+
+
+  
+   
+
 
       {/* Modal */}
       {showModel && (
@@ -111,11 +141,34 @@ const Home = () => {
         ))
       )}
 
-      {/* Small note */}
-      <p className="text-sm text-gray-500 mt-4">No CC Required!</p>
-      <FeaturesSection />
+<div>
+
+
+<div className=" grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+      <Card
+        title="Daily Trivia"
+        icon="/goals.png" // Replace with actual icon URL
+        background="bg-white"
+      />
+      <Card
+        title="Daily Play & Win"
+        icon="/goal.png" // Replace with actual icon URL
+        background="bg-red-500"
+      />
+      <Card
+        title="Play Like King"
+        icon="/suprise.png" // Replace with actual icon URL
+        background="bg-white"
+      />
     </div>
-  );
+      <p className="text-sm text-gray-500 mt-4">No CC Required!</p>
+    </div>
+
+    </div>   
+      <FeaturesSection />
+    
+  </div>
+  )
 };
 
 export default Home;

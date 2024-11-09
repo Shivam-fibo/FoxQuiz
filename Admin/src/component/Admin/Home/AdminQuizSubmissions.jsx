@@ -10,7 +10,7 @@ const QuizResults = () => {
   const fetchQuizResults = async () => {
     try {
       const response = await axios.get('http://localhost:3000/quiz/result'); 
-      console.log(response)
+      console.log(response);
       setQuizResults(response.data.data); // Assuming the results are in response.data.data
       setLoading(false);
     } catch (error) {
@@ -34,20 +34,25 @@ const QuizResults = () => {
       {quizResults.length === 0 ? (
         <p>No quiz results found.</p>
       ) : (
-        <div>
-    {[...quizResults].reverse().map((result) => (
-            <div key={result._id} className="mb-4 p-4 bg-white rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold">{result.fullName}</h3>
-              <p><strong>Username:</strong> {result.username}</p>
-              <p><strong>Email:</strong> {result.email}</p>
-              <p><strong>Score:</strong> {result.score}</p>
-              {/* If you want to display the answers as well */}
-              <div>
-                <strong>Answers:</strong>
-                <pre>{JSON.stringify(result.answers, null, 2)}</pre>
-              </div>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto bg-white rounded-lg shadow-md">
+            <thead>
+              <tr className="bg-gray-200 text-gray-700 text-left">
+                <th className="px-4 py-2">Username</th>
+                <th className="px-4 py-2">Email</th>
+                <th className="px-4 py-2">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...quizResults].reverse().map((result) => (
+                <tr key={result._id} className="border-b text-left">
+                  <td className="px-4 py-2">{result.username}</td>
+                  <td className="px-4 py-2">{result.email}</td>
+                  <td className="px-4 py-2">{result.score}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
@@ -55,4 +60,3 @@ const QuizResults = () => {
 };
 
 export default QuizResults;
-

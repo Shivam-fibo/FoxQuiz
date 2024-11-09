@@ -37,13 +37,13 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <div className="mt-48 ">
+    <div className="mt-48  ">
       <h2 className="text-3xl font-bold text-pink-500 text-center mb-2">Features</h2>
       <p className="text-gray-600 text-center mb-10 mt-4 ">
         A simple, interactive, and engaging way to test and improve your knowledge
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
+      <div className=" mx-auto items-center ml-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  ">
         {features.map((feature, index) => (
           <div
             key={index}
