@@ -111,6 +111,21 @@ const getQuizResults = asyncHandler(async (req, res) => {
   });
 });
 
+  const quizTitleCount = asyncHandler(async(req, res) =>{
+    const totalNum = await Quiz.distinct('title');
+    console.log("uniqe titles", totalNum);
+
+
+    res.status(200).json({
+      statusCode: 200,
+      totalNum,
+      totalUniqueTitles: totalNum.length,
+      message: "Unique quiz titles fetched successfully"
+    });
+
+  });
+
+
 
 
 export {
@@ -119,5 +134,6 @@ export {
   deleteQuizController,
   submitQuiz,
   getAllQuizzes,
-  getQuizResults
+  getQuizResults,
+  quizTitleCount
 };

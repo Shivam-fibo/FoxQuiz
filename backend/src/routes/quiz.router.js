@@ -6,6 +6,7 @@ import {
   submitQuiz,
   getAllQuizzes,
   getQuizResults,
+  quizTitleCount
 } from "../controller/quiz.controller.js";
 // import {verifyToken} from '../'
 
@@ -16,7 +17,8 @@ router.post("/quiz",   newQuizController);
 router.put("/quiz/:id",  updateQuizController);
 router.delete("/quiz/:id",  deleteQuizController);
 router.get('/allQuiz', getAllQuizzes);
-router.get('/result', getQuizResults)
+router.get('/result', getQuizResults);
+router.get('/totalTitle', quizTitleCount)
 
 // User route
 router.post("/quiz/:id/submit", submitQuiz);
