@@ -28,7 +28,7 @@ const Navbar = () => {
         
 <div className="flex flex-col md:flex-row mb-4 items-center justify-between mx-auto">
         <div>
-          <button className="text-2xl font-bold mb-6 " onClick={handleClickManager}>Admin Quiz Manager</button>
+          <button className="text-2xl font-bold mb-6 ml-2 " onClick={handleClickManager}>Admin Quiz Manager</button>
         </div>
         <div>
           <button
@@ -39,7 +39,7 @@ const Navbar = () => {
           </button>
 
           <button
-            className="bg-transparent hover:bg-blue-500 ml-4 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded "
+            className="bg-transparent hover:bg-blue-500 ml-4 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2"
             onClick={handleClickExistingQuiz}
           >
             {" "}
