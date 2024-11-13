@@ -28,7 +28,7 @@ const Navbar = () => {
         
 <div className="flex flex-col md:flex-row mb-4 items-center justify-between mx-auto">
         <div>
-          <h2 className="text-2xl font-bold mb-6 " onClick={handleClickManager}>Admin Quiz Manager</h2>
+          <button className="text-2xl font-bold mb-6 " onClick={handleClickManager}>Admin Quiz Manager</button>
         </div>
         <div>
           <button

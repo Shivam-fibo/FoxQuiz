@@ -10,16 +10,36 @@ const QuizResults = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const [totalResults, setTotalResults] = useState(0);
-  const[quizTitleName, setQuizTitleName] = useState("");
-  const [quizTitleCount, setQuizTitleCount] = useState(0);
+  const[quizTitleName, setQuizTitleName] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState(0);
   const resultsPerPage = 10;
   const navigate = useNavigate()
 
-  const fetchQuizResults = async (page = 1) => {
+
+  // only fetch the title of quizes
+  const fetchQuizTitle = async() =>{
+ try {
+  const response = await axios.get('http://localhost:3000/quiz/totalTitle');
+  setQuizTitleName(response.data.totalNum);
+ } catch (error) {
+  console.log(error);
+  toast.error("Error while fetching the titles")
+ }
+  }
+
+
+  // it fecting the all quiz result ->
+  const fetchQuizResults = async (page = 1, title = null) => {
     setLoading(true);
     try {
 setTimeout(async() => {
-  const response = await axios.get(`http://localhost:3000/quiz/result?page=${page}&limit=${resultsPerPage}`);
+  const response = await axios.get(`http://localhost:3000/quiz/result?page=${page}&limit=${resultsPerPage}`, {
+    params: {
+      page,
+      limit: resultsPerPage,
+      title, 
+    },
+  });
   console.log(response)
   setQuizResults(response.data.data || []); 
   setCurrentPage(response.data.page || 1); 
@@ -37,6 +57,7 @@ setTimeout(async() => {
 
  
   useEffect(() => {
+    fetchQuizTitle()
     fetchQuizResults(currentPage);
   }, [currentPage]);
 
@@ -45,15 +66,31 @@ setTimeout(async() => {
     <Loading/>
     );
   }
+  const handleTitleClick = (title) =>{
+    setSelectedTitle(title)
+    fetchQuizResults(1, title)
+  }
 
 
   return (
     <div className="p-6 bg-gray-50">
       <h2 className="text-2xl font-bold mb-6 text-center">Quiz Results</h2>
+      <div className='mb-4'>
+        {
+          quizTitleCount.map((title) =>(
+            <button key = {title} className={`px-4 py-2 mr-2 mb-2 bg-blue-500 text-white rounded ${
+              selectedTitle === title ? 'bg-blue-700' : ''
+            }`} onClick={() => handleTitleClick(title)}>
+              {title}
+            </button>
+          ))
+        }
+      </div>
       {quizResults.length === 0 ? (
         <p>No quiz results found.</p>
       ) : (
         <div className="overflow-x-auto">
+      
           <table className="w-full table-auto bg-white rounded-lg shadow-md">
             <thead>
               <tr className="bg-gray-200 text-gray-700 text-left">
