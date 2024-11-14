@@ -38,6 +38,7 @@ const QuizResults = () => {
           title,
         },
       });
+      console.log(response)
       setQuizResults(response.data.data || []);
       setCurrentPage(response.data.page || 1);
       setTotalPages(response.data.totalPages || 1);
@@ -72,7 +73,7 @@ const QuizResults = () => {
           <button
             key={title}
             className={`px-4 py-2 mr-2 mb-2 bg-blue-500 text-white rounded ${
-              selectedTitle === title ? 'bg-blue-700' : ''
+              selectedTitle === title ? 'bg-red-500' : ''
             }`}
             onClick={() => handleTitleClick(title)}
           >

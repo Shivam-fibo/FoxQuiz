@@ -3,10 +3,24 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { Navigate, useNavigate } from "react-router-dom";
+import { slideInDown, slideOutUp } from 'react-animations';
+import styled, { keyframes } from 'styled-components';
+
+
+
+const modelInAnimation = keyframes`${slideInDown}`;
+const modelOutAnimation = keyframes`${slideOutUp}`;
+
+const ModelAnimationButtonIn = styled.div`animation: 0.9s ${modelInAnimation};`;
+const ModelAnimationButtonOut = styled.div`animation: 0.9s ${modelOutAnimation};`;
+
+
 
 const UserQuizViewer = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [showModel, setShowModel] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [activeQuiz, setActiveQuiz] = useState(null);
   const { isAuthorized, userToken } = useContext(Context);
   const navigate = useNavigate();
@@ -70,7 +84,21 @@ const UserQuizViewer = () => {
   };
   
   const startQuiz = (quizId) => {
+    setShowModel(true);
     setActiveQuiz(quizId);
+  
+  };
+
+  const handleModalConfirm = () => {
+    setShowModel(false);
+  };
+
+  const handleModalCancel = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setShowModel(false);
+      setIsClosing(false);
+    }, 900); 
   };
 
 
@@ -138,6 +166,55 @@ const UserQuizViewer = () => {
             Loading....
       </p>}
   </div>
+
+
+  {showModel && (
+        (isClosing ? (
+          <ModelAnimationButtonOut className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h2 className="text-xl font-semibold mb-4">Important Notice</h2>
+              <p className="mb-6">Please be aware that cheating is not allowed during this quiz. Make sure to answer honestly.</p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleModalCancel}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleModalConfirm}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  I Understand
+                </button>
+              </div>
+            </div>
+          </ModelAnimationButtonOut>
+        ) : (
+          <ModelAnimationButtonIn className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h2 className="text-xl font-semibold mb-4">Important Notice</h2>
+              <p className="mb-6">Please be aware that cheating is not allowed during this quiz. Make sure to answer honestly.</p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleModalCancel}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleModalConfirm}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  I Understand
+                </button>
+              </div>
+            </div>
+          </ModelAnimationButtonIn>
+        ))
+      )}
+
+
 </div>
 
   </>);
