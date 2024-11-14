@@ -34,6 +34,7 @@ const Home = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
+    
     navigate('/quiz');
   };
 
