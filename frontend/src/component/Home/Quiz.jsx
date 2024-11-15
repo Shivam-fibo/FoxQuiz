@@ -36,7 +36,9 @@ const UserQuizViewer = () => {
     try {
       const response = await axios.get("http://localhost:3000/quiz/allQuiz");
       setQuizzes(response.data.data);
-      setLoading(false)
+      setTimeout(() =>{
+        setLoading(false)
+      }, 1000)
     } catch (error) {
       console.error("Error fetching quizzes:", error);
       toast.error("Failed to load quizzes");

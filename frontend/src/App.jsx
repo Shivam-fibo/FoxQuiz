@@ -8,6 +8,7 @@ import Register from './component/Auth/Register';
 import Quiz from './component/Home/Quiz'
 import { Toaster } from 'react-hot-toast';
 import Feedback from './component/Home/Feedback';
+import Loading from './component/Layout/Loading';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
  
         <Route path = '/quiz' element = {<Quiz/>} />
         <Route path='/feedback' element = {<Feedback/>} />
+        <Route path = '/loading' element = {<Loading/>} />
       </Routes>
       <Toaster/>
     </BrowserRouter>

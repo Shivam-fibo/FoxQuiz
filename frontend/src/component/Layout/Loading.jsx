@@ -5,7 +5,7 @@ const Loading = () => {
     <div className="flex justify-center items-center min-h-screen">
     <div className="loader">
       <img
-        src="/logo2.png"
+        src="/animation gif.gif"
         alt="Spinning logo"
 
         className="logo"
