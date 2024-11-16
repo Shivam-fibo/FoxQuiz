@@ -31,7 +31,7 @@ const QuizResults = () => {
   const fetchQuizResults = async (page = 1, title = null) => {
     setLoading(true);
     try {
-      const response = await axios.get('http://localhost:3000/quiz/result', {
+      const response = await axios.get(`http://localhost:3000/quiz/result/${quizTitles}`, {
         params: {
           page,
           limit: resultsPerPage,

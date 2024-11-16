@@ -26,6 +26,7 @@ const ExistingQuizzes = () => {
 
   const fetchQuizzes = async () => {
     const response = await axios.get('http://localhost:3000/quiz/allQuiz');
+    console.log(response)
     setQuizzes(response.data.data);
   };
 
@@ -44,7 +45,7 @@ const ExistingQuizzes = () => {
   };
 
   const handleGetInfo = (quizId) =>{
-    navigate(`/quiz/quiz/${quizId}`)
+    navigate(`/quiz/${quizId}`)
   }
 
   const deleteQuiz = async () => {

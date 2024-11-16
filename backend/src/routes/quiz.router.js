@@ -6,7 +6,8 @@ import {
   submitQuiz,
   getAllQuizzes,
   getQuizResults,
-  quizTitleCount
+  quizTitleCount,
+  getQuizIdById
 } from "../controller/quiz.controller.js";
 // import {verifyToken} from '../'
 
@@ -15,6 +16,7 @@ const router = express.Router();
 // Admin routes
 router.post("/quiz",   newQuizController);
 router.put("/quiz/:id",  updateQuizController);
+router.get("/quiz/:id", getQuizIdById)
 router.delete("/quiz/:id",  deleteQuizController);
 router.get('/allQuiz', getAllQuizzes);
 router.get('/result', getQuizResults);

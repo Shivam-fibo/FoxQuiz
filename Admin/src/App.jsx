@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ExistingQuizzes from './component/Admin/Home/ExistingQuizzes'
 import Navbar from './component/Layout/Navbar'
 import Loading from './component/Layout/Loading'
+import QuizDetail from './component/Admin/Home/QuizDetail'
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
     <Route path='/admin' element= {<AdminHome/>}/>
     <Route path = '/result' element = {<AdminQuizSubmission/>} />
     <Route path='/existingquiz' element = {<ExistingQuizzes/>} /> 
+    <Route path = '/quiz/:id' element = {<QuizDetail/>}/>
     <Route path = '/loading' element = {<Loading/>}/>
     </Routes>
     <Toaster/>

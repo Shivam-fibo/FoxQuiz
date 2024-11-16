@@ -35,6 +35,16 @@ const updateQuizController = asyncHandler(async (req, res) => {
   res.status(200).json(new ApiResponse(200, quiz, "Quiz updated successfully"));
 });
 
+// admin: to get the quiz
+const getQuizIdById = asyncHandler(async(req, res) =>{
+  const id = await Quiz.findById(req.params.id)
+  if(!id){
+    throw new ApiError(404, "Quiz is not found")
+  }
+  res.status(200).json(new ApiResponse(200, id, "Quiz fetched successfully"));
+
+})
+
 // Admin only: Delete a quiz
 const deleteQuizController = asyncHandler(async (req, res) => {
   const quiz = await Quiz.findByIdAndDelete(req.params.id);
@@ -136,5 +146,6 @@ export {
   submitQuiz,
   getAllQuizzes,
   getQuizResults,
-  quizTitleCount
+  quizTitleCount,
+  getQuizIdById
 };
