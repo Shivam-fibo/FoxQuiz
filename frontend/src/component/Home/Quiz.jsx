@@ -3,9 +3,10 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import { Navigate, useNavigate } from "react-router-dom";
+import Loading from "../../../../Admin/src/component/Layout/Loading";
+
 import { slideInDown, slideOutUp } from "react-animations";
 import styled, { keyframes } from "styled-components";
-import Loading from "../../../../Admin/src/component/Layout/Loading";
 
 const modelInAnimation = keyframes`${slideInDown}`;
 const modelOutAnimation = keyframes`${slideOutUp}`;

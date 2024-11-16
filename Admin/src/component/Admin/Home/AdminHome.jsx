@@ -40,21 +40,24 @@ const AdminQuizManager = () => {
         questions: formattedQuestions,
       });
 
-      alert("Quiz added successfully!");
+    toast.success("Quiz Added Successfully")
+    
+    setQuizzes([...quizzes, response.data.data]);
 
-      setQuizzes([...quizzes, response.data.data]);
+      navigate("/existingquiz");
     } catch (error) {
       console.error("Error adding quiz:", error);
     }
   };
 
   const addQuestion = () => {
-    for(let x in  questions) {
-      if(!x.questions || x.options.include("") || !x.correctAnswer){
-        toast.error("Plese fill all fields ")
-        return
-      }
+   for(let i = 0; i<questions.length; i++){
+    const x = questions[i];
+    if(!x.questionText || x.options.includes("") || !x.correctAnswer){
+      toast.error("Please fill all the field")
+      return;
     }
+   }
     setQuestions([...questions, { questionText: "", options: [""] }]);
   };
 
