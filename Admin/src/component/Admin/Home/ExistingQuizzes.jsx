@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import styled, { keyframes } from 'styled-components';
 import { slideInDown, slideOutUp } from 'react-animations';
+import { useNavigate } from 'react-router-dom';
 
 const modelInAnimation = keyframes`${slideInDown}`;
 const modelOutAnimation = keyframes`${slideOutUp}`;
@@ -16,6 +17,8 @@ const ExistingQuizzes = () => {
   const [showModel, setShowModel] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [handelQUizId, setHandleQuizId] = useState(null)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchQuizzes();
@@ -40,6 +43,10 @@ const ExistingQuizzes = () => {
     }, 900); 
   };
 
+  const handleGetInfo = (quizId) =>{
+    navigate(`/quiz/quiz/${quizId}`)
+  }
+
   const deleteQuiz = async () => {
     try {
       await axios.delete(`http://localhost:3000/quiz/quiz/${handelQUizId}`);
@@ -54,7 +61,7 @@ const ExistingQuizzes = () => {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold mt-8">Existing Quizzes</h3>
+      <h3 className="text-3xl font-bold my-8 ml-4 text-red-500">Existing Quizzes</h3>
       <ul>
         {quizzes.length > 0 ? (
           quizzes.map((quiz) => (
@@ -66,7 +73,7 @@ const ExistingQuizzes = () => {
                 <span>{quiz.title}</span>
               </div>
               <div>
-                <button className="text-blue-500 hover:underline transition duration-250">
+                <button onClick={() => handleGetInfo(quiz._id)} className="text-blue-500 hover:underline transition duration-250">
                   Get info
                 </button>
                 <button
