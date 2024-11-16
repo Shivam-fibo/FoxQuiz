@@ -7,6 +7,7 @@ import AdminQuizSubmissions from "./AdminQuizSubmissions";
 const AdminQuizManager = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [title, setTitle] = useState("");
+  const [countValue, setCountValue] = useState(1)
   const [questions, setQuestions] = useState([
     { questionText: "", options: [""], correctAnswer: "" },
   ]);
@@ -61,11 +62,28 @@ const AdminQuizManager = () => {
     setQuestions([...questions, { questionText: "", options: [""] }]);
   };
 
+
   const addOption = (qIdx) => {
+    
+    if (!questions[qIdx].questionText) {
+      toast.error("Please fill in the question text before adding an option");
+      return; 
+    }
+  
+    setCountValue(countValue+1);
+    console.log(countValue)
+
+    if(countValue > 3){
+      toast.error("You can not add more than 4 options")
+      return;
+    }
     const updatedQuestions = [...questions];
-    updatedQuestions[qIdx].options.push("");
-    setQuestions(updatedQuestions);
+    updatedQuestions[qIdx].options.push(""); // Add a new option field
+  
+    setQuestions(updatedQuestions); // Update the state with the new options array
+    console.log(`Added an option to question ${qIdx}`);
   };
+  
 
   const deleteQuiz = async (quizId) => {
     try {
@@ -95,7 +113,7 @@ const AdminQuizManager = () => {
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border border-gray-300  bg-slate-300 focus:outline-none"
         />
 
         {questions.map((q, qIdx) => (
@@ -113,7 +131,7 @@ const AdminQuizManager = () => {
                 newQuestions[qIdx].questionText = e.target.value;
                 setQuestions(newQuestions);
               }}
-              className="w-full p-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300  bg-slate-200 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
 
             {q.options.map((opt, oIdx) => (
@@ -132,6 +150,15 @@ const AdminQuizManager = () => {
               />
             ))}
 
+          
+
+            <button
+              onClick={() => addOption(qIdx)}
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200"
+            >
+              Add Option
+            </button>
+
             <input
               type="text"
               placeholder="Correct Answer"
@@ -141,20 +168,8 @@ const AdminQuizManager = () => {
                 newQuestions[qIdx].correctAnswer = e.target.value;
                 setQuestions(newQuestions);
               }}
-              className="w-full p-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full mt-4 p-2 border border-gray-300 bg-slate-100 rounded-md mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-
-            <button
-              onClick={() => {
-
-                const newQuestions = [...questions];
-                newQuestions[qIdx].options.push("");
-                setQuestions(newQuestions);
-              }}
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200"
-            >
-              Add Option
-            </button>
           </div>
         ))}
 
