@@ -29,7 +29,18 @@ const AdminQuizManager = () => {
     setQuizzes(response.data.data);
   };
   const addQuiz = async () => {
+
+
     try {
+      // a check to make sure that the correct ans should be from one of those options
+      for(let i = 0; i<questions.length; i++){
+        let x = questions[i];
+        if(!x.correctAnswer || !x.options.includes(x.correctAnswer)){
+          toast.error(`Question ${i + 1}: Correct answer must be one of the options.`);
+          return;
+        }
+      }
+
       const formattedQuestions = questions.map((q) => ({
         questionText: q.questionText,
         options: q.options.map((opt) => ({ text: opt })),
