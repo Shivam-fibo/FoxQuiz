@@ -56,7 +56,7 @@ const deleteQuizController = asyncHandler(async (req, res) => {
 
 const submitQuiz = asyncHandler(async (req, res) => {
   const { answers, username, email } = req.body;
-console.log(req.body)
+console.log("req bdoy",req.body)
   // Find the quiz
   const quiz = await Quiz.findById(req.params.id);
   if (!quiz) {

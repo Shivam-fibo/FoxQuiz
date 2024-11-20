@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loading from "../Layout/Loading";
+import { Context } from "../../main";
 
 const QuizDetails = () => {
   const { id } = useParams(); 
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [loading, setLoading] = useState(false);
+  const { isAuthorized, userToken } = useContext(Context);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,26 +32,49 @@ const QuizDetails = () => {
   const handleOptionSelect = (questionIndex, optionText) => {
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
-      [questionIndex]: optionText,
+      [id]: {
+        ...(prevAnswers[id] || {}),
+        [questionIndex]: optionText,
+      },
     }));
   };
 
-  const submitQuiz = async () => {
+  const submitQuiz = async (quizId) => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const { username, email } = storedUser || {};
+
+    const answers = selectedAnswers[quizId];
+    if (!answers) {
+      console.error("No answers selected for this quiz");
+      return toast.error("Please answer all questions before submitting");
+    }
+
+    console.log("Selected Answers:", answers);
+
     try {
       const response = await axios.post(
-        `http://localhost:3000/quiz/quiz/${id}/submit`,
-        { answers: selectedAnswers }
+        `http://localhost:3000/quiz/quiz/${quizId}/submit`,
+        { answers, username, email },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        }
       );
-      toast.success("Quiz submitted!");
+
+      console.log("Full Response:", response);
+      toast.success(`Quiz submitted!`);
       const score = response.data.data.score;
-      navigate("/feedback", { state: { score } });
+      setTimeout(() => {
+        navigate("/feedback", { state: { score } });
+      }, 1000);
     } catch (error) {
       console.error("Error submitting quiz:", error);
       toast.error("Failed to submit quiz");
     }
   };
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
 
   return (
     <div className="p-6">
@@ -63,6 +88,7 @@ const QuizDetails = () => {
                 type="radio"
                 name={`question-${questionIndex}`}
                 value={option.text}
+                checked={selectedAnswers[id]?.[questionIndex] === option.text}
                 onChange={() => handleOptionSelect(questionIndex, option.text)}
               />
               <span>{option.text}</span>
@@ -71,7 +97,7 @@ const QuizDetails = () => {
         </div>
       ))}
       <button
-        onClick={submitQuiz}
+        onClick={() => submitQuiz(id)}
         className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
       >
         Submit Quiz
