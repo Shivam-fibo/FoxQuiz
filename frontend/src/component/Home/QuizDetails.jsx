@@ -6,11 +6,12 @@ import Loading from "../Layout/Loading";
 import { Context } from "../../main";
 
 const QuizDetails = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [quiz, setQuiz] = useState(null);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [loading, setLoading] = useState(false);
-  const { isAuthorized, userToken } = useContext(Context);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const { userToken } = useContext(Context);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,31 +30,34 @@ const QuizDetails = () => {
     }
   };
 
-  const handleOptionSelect = (questionIndex, optionText) => {
+  const handleOptionSelect = (optionText) => {
     setSelectedAnswers((prevAnswers) => ({
       ...prevAnswers,
       [id]: {
         ...(prevAnswers[id] || {}),
-        [questionIndex]: optionText,
+        [currentQuestionIndex]: optionText,
       },
     }));
   };
 
-  const submitQuiz = async (quizId) => {
+  const nextQuestion = () => {
+    if (currentQuestionIndex < quiz.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const submitQuiz = async () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     const { username, email } = storedUser || {};
 
-    const answers = selectedAnswers[quizId];
-    if (!answers) {
-      console.error("No answers selected for this quiz");
+    const answers = selectedAnswers[id];
+    if (!answers || Object.keys(answers).length < quiz.questions.length) {
       return toast.error("Please answer all questions before submitting");
     }
 
-    console.log("Selected Answers:", answers);
-
     try {
       const response = await axios.post(
-        `http://localhost:3000/quiz/quiz/${quizId}/submit`,
+        `http://localhost:3000/quiz/quiz/${id}/submit`,
         { answers, username, email },
         {
           headers: {
@@ -62,8 +66,7 @@ const QuizDetails = () => {
         }
       );
 
-      console.log("Full Response:", response);
-      toast.success(`Quiz submitted!`);
+      toast.success("Quiz submitted!");
       const score = response.data.data.score;
       setTimeout(() => {
         navigate("/feedback", { state: { score } });
@@ -76,33 +79,67 @@ const QuizDetails = () => {
 
   if (loading) return <Loading />;
 
+  const currentQuestion = quiz?.questions[currentQuestionIndex];
+
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">{quiz?.title}</h2>
-      {quiz?.questions.map((question, questionIndex) => (
-        <div key={questionIndex} className="mb-4">
-          <p className="font-semibold">{question.questionText}</p>
-          {question.options.map((option, optionIndex) => (
-            <label key={optionIndex} className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name={`question-${questionIndex}`}
-                value={option.text}
-                checked={selectedAnswers[id]?.[questionIndex] === option.text}
-                onChange={() => handleOptionSelect(questionIndex, option.text)}
-              />
-              <span>{option.text}</span>
-            </label>
-          ))}
-        </div>
-      ))}
-      <button
-        onClick={() => submitQuiz(id)}
-        className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Submit Quiz
-      </button>
+
+<div className="flex items-center justify-center min-h-screen bg-blue-600">
+  <div className="bg-white  p-8 w-full max-w-md">
+    <div className="text-center mb-6">
+      <h2 className="text-4xl font-bold text-red-700 mb-2">{String(currentQuestionIndex + 1).padStart(2, '0')}<span className="text-gray-400">/{quiz?.questions.length}</span></h2>
+      <p className="text-lg font-semibold text-gray-800">{currentQuestion?.questionText}</p>
     </div>
+
+    {currentQuestion && (
+      <div className="space-y-4">
+        {currentQuestion.options.map((option, index) => (
+          <label
+            key={index}
+            className={`flex items-center py-3 px-4 border rounded-lg cursor-pointer ${
+              selectedAnswers[id]?.[currentQuestionIndex] === option.text
+                ? "border-red-500 bg-red-50"
+                : "border-gray-200"
+            }`}
+          >
+            <input
+              type="radio"
+              name={`question-${currentQuestionIndex}`}
+              value={option.text}
+              checked={
+                selectedAnswers[id]?.[currentQuestionIndex] === option.text
+              }
+              onChange={() => handleOptionSelect(option.text)}
+              className="hidden"
+            />
+            <span className="text-lg font-medium text-gray-700">{String.fromCharCode(65 + index)}. {option.text}</span>
+          </label>
+        ))}
+      </div>
+    )}
+
+    <div className="flex justify-between mt-6">
+ 
+      {currentQuestionIndex < quiz?.questions.length - 1 ? (
+        <button
+          onClick={nextQuestion}
+          className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-purple-600 disabled:bg-gray-300"
+          disabled={!selectedAnswers[id]?.[currentQuestionIndex]}
+        >
+          Next
+        </button>
+      ) : (
+        <button
+          onClick={submitQuiz}
+          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:bg-gray-300"
+          disabled={!selectedAnswers[id]?.[currentQuestionIndex]}
+        >
+          Submit
+        </button>
+      )}
+    </div>
+  </div>
+</div>
+
   );
 };
 

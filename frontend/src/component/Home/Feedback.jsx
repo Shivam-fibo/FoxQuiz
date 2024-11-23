@@ -18,7 +18,7 @@ const Feedback = () => {
       ) : (
         <p className="text-lg">No score available.</p>
       )}
-      <button className='bg-red-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-red-100' onClick={handleClick}>Go back to HomePage</button>
+      <button className='bg-red-500 text-white py-3 mt-4 px-6 rounded-full text-lg font-semibold hover:bg-red-400' onClick={handleClick}>Go back to HomePage</button>
 
       
     </div>

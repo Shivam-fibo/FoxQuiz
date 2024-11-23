@@ -27,22 +27,25 @@ const QuizList = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
-      <div className="grid gap-4">
-        {quizzes.map((quiz) => (
-          <div key={quiz._id} className="p-4 bg-white shadow rounded">
-            <h3 className="text-lg font-semibold">{quiz.title}</h3>
-            <button
-              onClick={() => navigate(`/quiz/${quiz._id}`)}
-              className="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-            >
-              Start Quiz
-            </button>
-          </div>
-        ))}
+
+   <div className="p-6">
+  <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
+  <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    {quizzes.map((quiz) => (
+      <div key={quiz._id} className="p-4 bg-white border border-sky-600 ">
+        <h3 className="text-lg font-semibold">{quiz.title}</h3>
+        <button
+          onClick={() => navigate(`/quiz/${quiz._id}`)}
+          className="mt-4 bg-red-500 hover:bg-green-600 text-white px-4 py-2 "
+        >
+          Start Quiz
+        </button>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
+
+
   );
 };
 

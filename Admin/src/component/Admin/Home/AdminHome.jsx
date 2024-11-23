@@ -7,7 +7,7 @@ import AdminQuizSubmissions from "./AdminQuizSubmissions";
 const AdminQuizManager = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [title, setTitle] = useState("");
-  const [countValue, setCountValue] = useState(1)
+  const [countValue, setCountValue] = useState(1);
   const [questions, setQuestions] = useState([
     { questionText: "", options: [""], correctAnswer: "" },
   ]);
@@ -29,14 +29,14 @@ const AdminQuizManager = () => {
     setQuizzes(response.data.data);
   };
   const addQuiz = async () => {
-
-
     try {
       // a check to make sure that the correct ans should be from one of those options
-      for(let i = 0; i<questions.length; i++){
+      for (let i = 0; i < questions.length; i++) {
         let x = questions[i];
-        if(!x.correctAnswer || !x.options.includes(x.correctAnswer)){
-          toast.error(`Question ${i + 1}: Correct answer must be one of the options.`);
+        if (!x.correctAnswer || !x.options.includes(x.correctAnswer)) {
+          toast.error(
+            `Question ${i + 1}: Correct answer must be one of the options.`
+          );
           return;
         }
       }
@@ -52,9 +52,9 @@ const AdminQuizManager = () => {
         questions: formattedQuestions,
       });
 
-    toast.success("Quiz Added Successfully")
-    
-    setQuizzes([...quizzes, response.data.data]);
+      toast.success("Quiz Added Successfully");
+
+      setQuizzes([...quizzes, response.data.data]);
 
       navigate("/existingquiz");
     } catch (error) {
@@ -63,60 +63,46 @@ const AdminQuizManager = () => {
   };
 
   const addQuestion = () => {
-   for(let i = 0; i<questions.length; i++){
-    const x = questions[i];
-    if(!x.questionText || x.options.includes("") || !x.correctAnswer){
-      toast.error("Please fill all the field")
-      return;
+    setCountValue(1);
+    for (let i = 0; i < questions.length; i++) {
+      const x = questions[i];
+      if (!x.questionText || x.options.includes("") || !x.correctAnswer) {
+        toast.error("Please fill all the field!");
+        return;
+      }
     }
-   }
     setQuestions([...questions, { questionText: "", options: [""] }]);
   };
 
-
   const addOption = (qIdx) => {
-    
     if (!questions[qIdx].questionText) {
       toast.error("Please fill in the question text before adding an option");
-      return; 
+      return;
     }
-  
-    setCountValue(countValue+1);
-    console.log(countValue)
 
-    if(countValue > 3){
-      toast.error("You can not add more than 4 options")
+    setCountValue(countValue + 1);
+    console.log(countValue);
+
+    if (countValue > 3) {
+      toast.error("You can not add more than 4 options");
       return;
     }
     const updatedQuestions = [...questions];
     updatedQuestions[qIdx].options.push(""); // Add a new option field
-  
+
     setQuestions(updatedQuestions); // Update the state with the new options array
     console.log(`Added an option to question ${qIdx}`);
   };
-  
 
-  const deleteQuiz = async (quizId) => {
-    try {
-      const response = await axios.delete(
-        `http://localhost:3000/quiz/quiz/${quizId}`
-      );
-
-      // Assuming your server responds with the updated list of quizzes or success message
-      if (response.status === 200) {
-        // Remove the deleted quiz from the local state
-        setQuizzes(quizzes.filter((quiz) => quiz._id !== quizId));
-        toast.success("Quiz deleted successfully!");
-      }
-    } catch (error) {
-      console.error("Error deleting quiz:", error);
-      alert("Failed to delete quiz.");
-    }
+  const deleteQuestion = (qIdx) => {
+    // Filter out the question at the given index
+    const updatedQuestions = questions.filter((_, index) => index !== qIdx);
+    setQuestions(updatedQuestions);
+    toast.success(`Question ${qIdx + 1} deleted successfully`);
   };
 
   return (
     <div className="p-6 bg-gray-50">
-      
       <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         <input
           type="text"
@@ -161,13 +147,19 @@ const AdminQuizManager = () => {
               />
             ))}
 
-          
-
             <button
               onClick={() => addOption(qIdx)}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200"
             >
               Add Option
+            </button>
+
+            <button
+              type="button"
+              onClick={() => deleteQuestion(qIdx)}
+              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200 ml-12"
+            >
+              Delete Question
             </button>
 
             <input
