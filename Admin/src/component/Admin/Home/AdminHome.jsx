@@ -28,8 +28,26 @@ const AdminQuizManager = () => {
     const response = await axios.get("http://localhost:3000/quiz/allQuiz");
     setQuizzes(response.data.data);
   };
+
+  // chckeing the uniqui options present in the quiz
+
+  const areOptionsDistinct = () => {
+   
+  };
+  
   const addQuiz = async () => {
     try {
+      // to chaek the options are sure diff 
+      for (let i = 0; i < questions.length; i++) {
+        const options = questions[i].options;
+        const uniqueOptions = new Set(options);
+        if (uniqueOptions.size !== options.length) {
+          toast.error(`Question ${i + 1}: Options must be unique.`);
+          return ;
+        }
+      }
+     
+    
       // a check to make sure that the correct ans should be from one of those options
       for (let i = 0; i < questions.length; i++) {
         let x = questions[i];
