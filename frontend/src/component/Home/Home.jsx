@@ -5,6 +5,9 @@ import FeaturesSection from './FeaturesSection';
 import { rubberBand } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import toast from 'react-hot-toast'
+import { useContext } from 'react';
+import axios from 'axios';
+import { Context } from '../../main';
 
 const slideInDownAnimation = keyframes`${rubberBand}`;
 const AnimatedButton = styled.button`animation: 1s ${slideInDownAnimation};`;
@@ -30,6 +33,7 @@ const Card = ({ title, icon, background }) => {
 
 const Home = () => {
 
+  const {setIsAuthorized} = useContext(Context)
 
   const navigate = useNavigate();
 
@@ -39,11 +43,13 @@ const Home = () => {
     navigate('/quiz');
   };
 
+
+
   
   const handleLogout = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/user/logout",
+        "http://localhost:3000/user/logout",{},
         {
           withCredentials: true,
         }
@@ -53,7 +59,8 @@ const Home = () => {
       setIsAuthorized(false);
       // navigateTo("/login");
     } catch (error) {
-      toast.error(error), 
+      console.log(error)
+      toast.error('error'), 
       setIsAuthorized(true);
     }
   };

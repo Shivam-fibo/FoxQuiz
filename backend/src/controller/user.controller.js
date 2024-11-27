@@ -148,7 +148,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     })
   })
 
-   const logout = catchAsyncErrors(async (req, res, next) => {
+   const logout = asyncHandler(async (req, res, next) => {
     res
       .status(201)
       .cookie("token", "", {

@@ -19,6 +19,7 @@ const AppWrapper = () =>{
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user')
+    
     return savedUser ? JSON.parse(savedUser) : {}
   })
   const [userToken, setUserToken] = useState('');
