@@ -4,10 +4,8 @@ import { Typewriter } from 'react-simple-typewriter';
 import FeaturesSection from './FeaturesSection';
 import { rubberBand } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
-import toast from 'react-hot-toast'
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import axios from 'axios';
 import { Context } from '../../main';
 
 const slideInDownAnimation = keyframes`${rubberBand}`;
@@ -34,7 +32,8 @@ const Card = ({ title, icon, background }) => {
 
 const Home = () => {
 
-  const {isAuthorized,setIsAuthorized} = useContext(Context)
+  const { isAuthorized } = useContext(Context);
+
 
   const navigate = useNavigate();
   
@@ -51,25 +50,6 @@ const Home = () => {
 
 
   
-  const handleLogout = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/user/logout",{},
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response)
-      // toast.success(response.data.message);
-      setIsAuthorized(false);
-      // navigateTo("/login");
-    } catch (error) {
-      console.log(error)
-      toast.error('error'), 
-      setIsAuthorized(true);
-    }
-  };
-
 
 
   return  (
@@ -78,9 +58,7 @@ const Home = () => {
     
     <div className="flex flex-col items-center justify-center  bg-orange-200 p-8 text-center">
     <div className='mt-32'>
-    <li>
-            <button onClick={handleLogout} className="log_btn bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition">Logout</button>
-          </li>
+   
     </div>
       
       {/* Heading */}
