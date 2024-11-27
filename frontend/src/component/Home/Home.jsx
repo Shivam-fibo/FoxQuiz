@@ -6,6 +6,7 @@ import { rubberBand } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
 import toast from 'react-hot-toast'
 import { useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { Context } from '../../main';
 
@@ -33,9 +34,13 @@ const Card = ({ title, icon, background }) => {
 
 const Home = () => {
 
-  const {setIsAuthorized} = useContext(Context)
+  const {isAuthorized,setIsAuthorized} = useContext(Context)
 
   const navigate = useNavigate();
+  
+  if (!isAuthorized) {
+    return <Navigate to="/login"  />;
+}
 
   const handleClick = (e) => {
     e.preventDefault();

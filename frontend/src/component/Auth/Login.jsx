@@ -16,10 +16,10 @@ const Login = () => {
 
   
   useEffect(() => {
-    const storedToken = localStorage.getItem("accessToken");
+    const storedToken = sessionStorage.getItem("accessToken");
     if (storedToken) {
       setIsAuthorized(true);
-      const storedUser = localStorage.getItem("user");
+      const storedUser = sessionStorage.getItem("user");
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
@@ -41,9 +41,9 @@ const Login = () => {
       );
       toast.success(data.message);
 
-      // Store data in localStorage
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+      // Store data in sessionStorage
+      sessionStorage.setItem("accessToken", data.data.accessToken);
+      sessionStorage.setItem("user", JSON.stringify(data.data.user));
 
       // Set context state
       setUser(data.data.user);

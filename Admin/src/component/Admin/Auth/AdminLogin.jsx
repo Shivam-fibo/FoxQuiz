@@ -25,7 +25,7 @@ const AdminLogin = () => {
     };
 
   
-    if (isAuthorized) {
+    if (!isAuthorized) {
         return <Navigate to="/admin"  />;
     }
 

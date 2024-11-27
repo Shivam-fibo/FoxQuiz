@@ -16,10 +16,10 @@ const Register = () => {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() =>{
-    const storedToken = localStorage.getItem("accessToken")
+    const storedToken = sessionStorage.getItem("accessToken")
       if(storedToken){
         setIsAuthorized(true)
-        const storedUser = localStorage.getItem("user");
+        const storedUser = sessionStorage.getItem("user");
         if(storedUser){
           setUser(JSON.parse(storedUser))
         }
@@ -43,9 +43,9 @@ const Register = () => {
       console.log(data)
       toast.success(data.message);
   
-      // Store the access token and user data in localStorage
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+      // Store the access token and user data in sessionStorage
+      sessionStorage.setItem("accessToken", data.data.accessToken);
+      sessionStorage.setItem("user", JSON.stringify(data.data.user));
   
       // Set context state
       setUser(data.data.user);

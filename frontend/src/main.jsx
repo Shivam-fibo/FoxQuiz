@@ -18,7 +18,7 @@ window.addEventListener("focus", () => {
 const AppWrapper = () =>{
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('user')
+    const savedUser = sessionStorage.getItem('user')
     
     return savedUser ? JSON.parse(savedUser) : {}
   })
@@ -26,11 +26,11 @@ const AppWrapper = () =>{
 
   useEffect(() =>{
     if(user && Object.keys(user).length > 0){
-      localStorage.setItem('user', JSON.stringify(user))
+      sessionStorage.setItem('user', JSON.stringify(user))
       setIsAuthorized(true)
     }
     else{
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
       setIsAuthorized(false)
     }
   }, [user])

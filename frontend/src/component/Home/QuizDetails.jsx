@@ -47,7 +47,7 @@ const QuizDetails = () => {
   };
 
   const submitQuiz = async () => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(sessionStorage.getItem("user"));
     const { username, email } = storedUser || {};
 
     const answers = selectedAnswers[id];
