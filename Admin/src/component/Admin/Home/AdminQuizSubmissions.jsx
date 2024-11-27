@@ -39,10 +39,10 @@ const QuizResults = () => {
         },
       });
       console.log(response)
-      setQuizResults(response.data.data || []);
-      setCurrentPage(response.data.page || 1);
-      setTotalPages(response.data.totalPages || 1);
-      setTotalResults(response.data.totalResults || 0);
+      setQuizResults(response.data.data );
+      setCurrentPage(response.data.page );
+      setTotalPages(response.data.totalPages );
+      setTotalResults(response.data.totalResults );
     } catch (error) {
       console.error('Error fetching quiz results:', error);
       toast.error('Failed to fetch quiz results');

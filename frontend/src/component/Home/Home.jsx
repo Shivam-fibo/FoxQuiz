@@ -4,6 +4,7 @@ import { Typewriter } from 'react-simple-typewriter';
 import FeaturesSection from './FeaturesSection';
 import { rubberBand } from 'react-animations';
 import styled, { keyframes } from 'styled-components';
+import toast from 'react-hot-toast'
 
 const slideInDownAnimation = keyframes`${rubberBand}`;
 const AnimatedButton = styled.button`animation: 1s ${slideInDownAnimation};`;
@@ -38,6 +39,26 @@ const Home = () => {
     navigate('/quiz');
   };
 
+  
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/user/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response)
+      // toast.success(response.data.message);
+      setIsAuthorized(false);
+      // navigateTo("/login");
+    } catch (error) {
+      toast.error(error), 
+      setIsAuthorized(true);
+    }
+  };
+
+
 
   return  (
 
@@ -45,7 +66,9 @@ const Home = () => {
     
     <div className="flex flex-col items-center justify-center  bg-orange-200 p-8 text-center">
     <div className='mt-32'>
-
+    <li>
+            <button onClick={handleLogout} className="log_btn bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition">Logout</button>
+          </li>
     </div>
       
       {/* Heading */}

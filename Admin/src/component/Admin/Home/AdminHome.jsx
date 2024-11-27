@@ -31,9 +31,6 @@ const AdminQuizManager = () => {
 
   // chckeing the uniqui options present in the quiz
 
-  const areOptionsDistinct = () => {
-   
-  };
   
   const addQuiz = async () => {
     try {
@@ -175,7 +172,7 @@ const AdminQuizManager = () => {
             <button
               type="button"
               onClick={() => deleteQuestion(qIdx)}
-              className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition duration-200 ml-12"
+              className="bg-gray-200 text-gray-800 px-4 py-2 md: ml-3 hover:bg-gray-300 transition duration-200"
             >
               Delete Question
             </button>

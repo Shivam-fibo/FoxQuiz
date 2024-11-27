@@ -104,9 +104,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // Function to log out a user (placeholder)
-const logOutUser = asyncHandler(async (req, res) => {
-    // Placeholder for user logout functionality
-})
+
 
 // Function to refresh the access token using the refresh token
 const refreshAccessToken = asyncHandler(async (req, res) => {
@@ -149,6 +147,19 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       user
     })
   })
-    
 
-export {registerUser, loginUser, logOutUser, getUser, refreshAccessToken}
+   const logout = catchAsyncErrors(async (req, res, next) => {
+    res
+      .status(201)
+      .cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(Date.now()),
+      })
+      .json({
+        success: true,
+        message: "Logged Out Successfully.",
+      });
+  });
+  
+
+export {registerUser, loginUser, getUser, refreshAccessToken, logout}
