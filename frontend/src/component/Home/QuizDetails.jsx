@@ -83,11 +83,11 @@ const QuizDetails = () => {
 
   return (
 
-<div className="flex items-center justify-center min-h-screen bg-blue-600">
+<div className="flex items-center justify-center min-h-screen bg-customBlue">
   <div className="bg-white  p-8 w-full max-w-md">
     <div className="text-center mb-6">
-      <h2 className="text-4xl font-bold text-red-700 mb-2">{String(currentQuestionIndex + 1).padStart(2, '0')}<span className="text-gray-400">/{quiz?.questions.length}</span></h2>
-      <p className="text-lg font-semibold text-gray-800">{currentQuestion?.questionText}</p>
+      <h2 className="text-4xl font-bold text-whhite-700 mb-2">{String(currentQuestionIndex + 1).padStart(2, '0')}<span className="text-gray-400">/{quiz?.questions.length}</span></h2>
+      <p className="text-lg font-semibold text-blue-800">{currentQuestion?.questionText}</p>
     </div>
 
     {currentQuestion && (

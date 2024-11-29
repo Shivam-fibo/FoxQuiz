@@ -31,18 +31,18 @@ const QuizResults = () => {
   const fetchQuizResults = async (page = 1, title = null) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/quiz/result/${quizTitles}`, {
+      const response = await axios.get('http://localhost:3000/quiz/result', {
         params: {
           page,
           limit: resultsPerPage,
-          title,
+          title, 
         },
       });
-      console.log(response)
-      setQuizResults(response.data.data );
-      setCurrentPage(response.data.page );
-      setTotalPages(response.data.totalPages );
-      setTotalResults(response.data.totalResults );
+      console.log(response);
+      setQuizResults(response.data.data);
+      setCurrentPage(response.data.page);
+      setTotalPages(response.data.totalPages);
+      setTotalResults(response.data.totalResults);
     } catch (error) {
       console.error('Error fetching quiz results:', error);
       toast.error('Failed to fetch quiz results');
@@ -50,7 +50,7 @@ const QuizResults = () => {
       setLoading(false);
     }
   };
-
+  
   useEffect(() => {
     fetchQuizTitles();
     fetchQuizResults(currentPage, selectedTitle);

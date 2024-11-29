@@ -24,6 +24,22 @@ const QuizList = () => {
     }
   };
 
+  const getRandomColor = () =>{
+    const color = [
+     "#F7D358", 
+    "#FF5E57", 
+    "#6C63FF", 
+    "#4CD964", 
+    "#3498DB", 
+    "#9B59B6", 
+    "#FF6FD8",
+    "#5DADE2", 
+    "#D5AAFF"
+    ]
+
+    return color[Math.floor(Math.random() * color.length)]
+  }
+
   if (loading) return <Loading />;
 
   return (
@@ -32,11 +48,12 @@ const QuizList = () => {
   <h2 className="text-2xl font-bold mb-6 text-center">Available Quizzes</h2>
   <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
     {quizzes.map((quiz) => (
-      <div key={quiz._id} className="p-4 bg-white border border-sky-600 ">
+      <div key={quiz._id}  style={{ backgroundColor: getRandomColor() }} className="p-4 bg-white border border-sky-600 ">
         <h3 className="text-lg font-semibold">{quiz.title}</h3>
         <button
+        style={{ backgroundColor: getRandomColor() }}
           onClick={() => navigate(`/quiz/${quiz._id}`)}
-          className="mt-4 bg-red-500 hover:bg-green-600 text-white px-4 py-2 "
+          className="mt-4  text-white px-4 py-2 "
         >
           Start Quiz
         </button>
