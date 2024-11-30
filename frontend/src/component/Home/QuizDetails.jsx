@@ -65,11 +65,12 @@ const QuizDetails = () => {
           },
         }
       );
-
+      console.log(response)
       toast.success("Quiz submitted!");
       const score = response.data.data.score;
+      const totalQuestion =quiz. questions.length
       setTimeout(() => {
-        navigate("/feedback", { state: { score } });
+        navigate("/feedback", { state: { score, totalQuestion } });
       }, 1000);
     } catch (error) {
       console.error("Error submitting quiz:", error);
@@ -84,7 +85,7 @@ const QuizDetails = () => {
   return (
 
 <div className="flex items-center justify-center min-h-screen bg-customBlue">
-  <div className="bg-white  p-8 w-full max-w-md">
+  <div className="bg-blue-200  p-8 w-full max-w-lg border  ">
     <div className="text-center mb-6">
       <h2 className="text-4xl font-bold text-whhite-700 mb-2">{String(currentQuestionIndex + 1).padStart(2, '0')}<span className="text-gray-400">/{quiz?.questions.length}</span></h2>
       <p className="text-lg font-semibold text-blue-800">{currentQuestion?.questionText}</p>
